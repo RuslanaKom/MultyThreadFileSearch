@@ -1,5 +1,6 @@
 package application;
-	
+
+import javafx.scene.control.TextArea;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Main extends Application {
 		try {
 		    TextField inputFileName = new TextField();
 		    TextField inputFolderName = new TextField();
-		    TextField outputResults = new TextField();
+		    TextArea outputResults = new TextArea();
 		    Button searchButton = new Button("Search");
 		    ProgressBar pb = new ProgressBar(0);
 		    
@@ -56,27 +57,26 @@ public class Main extends Application {
 //                    }
 //                }
 //            });
-          
 		    
-		    EventHandler<ActionEvent> searchButtonHandler = new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                 
-                 String startDirectory = inputFolderName.getText();
-                 String fileName = inputFileName.getText();
-                 try {
-                    searcher.searchInDirectory(startDirectory, fileName, results, pb);
-                    outputResults.setText(results.toString());
-                }
-                catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-                 
-                }
-            };
-            
+			EventHandler<ActionEvent> searchButtonHandler = new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					outputResults.clear();
+					String startDirectory = inputFolderName.getText();
+					String fileName = inputFileName.getText();
+					try {
+						searcher.searchInDirectory(startDirectory, fileName, results);
+						for (String result : results) {
+							outputResults.appendText(result);
+							outputResults.appendText(System.getProperty("line.separator"));
+							outputResults.autosize();
+						}
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+				}
+			};
 
-            
             searchButton.setOnAction(searchButtonHandler);
 		    
 		    GridPane gridPane = new GridPane();
@@ -91,7 +91,7 @@ public class Main extends Application {
             gridPane.add(pb, 1, 5);
             
             
-            Scene scene = new Scene(gridPane,280,350);
+            Scene scene = new Scene(gridPane,900,500);
             primaryStage.setScene(scene);
             primaryStage.setTitle("BLABLA");
             primaryStage.show();;

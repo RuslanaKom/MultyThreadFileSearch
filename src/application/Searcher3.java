@@ -23,10 +23,11 @@ public class Searcher3 {
     private static final String NOT_FOUND_MESSAGE = "No file %s found";
 
     private static final String FILE_FOUND_MESSAGE = "File found in %s";
-    private ExecutorService executor = Executors.newFixedThreadPool(numberOfTheads);
-   // private ExecutorService executor = Executors.newWorkStealingPool();
+    private ExecutorService executor;
 
-    public void searchInDirectory(String directoryName, String fileName, List<String> results, ProgressBar pb) throws InterruptedException {
+    public void searchInDirectory(String directoryName, String fileName, List<String> results) throws InterruptedException {
+    	results.clear();
+    	executor = Executors.newFixedThreadPool(numberOfTheads);
         Stack<File> stack = new Stack<File>();
         File dir = new File(directoryName);
         stack.push(dir);
@@ -71,7 +72,7 @@ public class Searcher3 {
             System.out.println("Searched: " + directoriesSearched);
             System.out.println("Total found: " + totalDirectoriesFound);
             System.out.println(progressPercents);
-            pb.setProgress(progressPercents*100);
+           // pb.setProgress(progressPercents*100);
         }
         executor.shutdown();
         if(results.isEmpty()) {

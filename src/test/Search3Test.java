@@ -20,7 +20,7 @@ public class Search3Test {
         Searcher3 searcher = new Searcher3();
         
         List<String> resultList = new ArrayList<>();
-        searcher.searchInDirectory("C:/Users/rkomaristova/Desktop/searchHere", "target", resultList, new ProgressBar(0));
+        searcher.searchInDirectory("C:/Users/Rusla/Desktop/F1", "file1", resultList);
         
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
