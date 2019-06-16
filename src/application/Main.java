@@ -26,6 +26,9 @@ public class Main extends Application {
 		    TextField inputFileName = new TextField();
 		    TextField inputFolderName = new TextField();
 		    TextArea outputResults = new TextArea();
+		    outputResults.setEditable(false);
+		    TextField time = new TextField();
+		    time.setEditable(false);
 		    Button searchButton = new Button("Search");
 		    ProgressBar pb = new ProgressBar(0);
 		    
@@ -42,30 +45,33 @@ public class Main extends Application {
 		    Searcher3 searcher=new Searcher3();
 		    
 		    List<String> results = new ArrayList<>();
-//            Thread thread = new Thread(new Runnable() {
-//                @Override public void run() {
-//                    int i = 0;
-//                    while(i<10) {
-//                    pb.setProgress(searcher.getProgressPercents()*100);
-//                    try {
-//                        Thread.sleep(10);
-//                    }
-//                    catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    i++;
-//                    }
-//                }
-//            });
-		    
+//			Thread thread = new Thread(new Runnable() {
+//				@Override
+//				public void run() {
+//					while (Thread.currentThread().isAlive()) {
+//						pb.setProgress(searcher.getProgressPercents() * 100);
+//						try {
+//							Thread.sleep(2);
+//						} catch (InterruptedException e) {
+//							e.printStackTrace();
+//						}
+//					}
+//				}
+//			});
+
 			EventHandler<ActionEvent> searchButtonHandler = new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
 					outputResults.clear();
+					long startTime = System.currentTimeMillis();
 					String startDirectory = inputFolderName.getText();
 					String fileName = inputFileName.getText();
 					try {
+						//thread.start();
 						searcher.searchInDirectory(startDirectory, fileName, results);
+				        long stopTime = System.currentTimeMillis();
+				        long elapsedTime = stopTime - startTime;
+				        time.setText("Search finished in: "+String.valueOf(elapsedTime)+"ms");
 						for (String result : results) {
 							outputResults.appendText(result);
 							outputResults.appendText(System.getProperty("line.separator"));
@@ -88,12 +94,13 @@ public class Main extends Application {
             gridPane.add(hb2, 0, 2);
             gridPane.add(searchButton, 4, 2);
             gridPane.add(outputResults, 0, 3);
-            gridPane.add(pb, 1, 5);
+            gridPane.add(time, 0, 5);
+            gridPane.add(pb, 3, 5);
             
             
             Scene scene = new Scene(gridPane,900,500);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("BLABLA");
+            primaryStage.setTitle("File search");
             primaryStage.show();;
 		} catch(Exception e) {
 			e.printStackTrace();

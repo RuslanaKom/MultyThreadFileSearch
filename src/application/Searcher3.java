@@ -69,9 +69,9 @@ public class Searcher3 {
             double previousProgress = progressPercents;
             progressPercents=directoriesSearched/totalDirectoriesFound;
             progressPercents=progressPercents>previousProgress? progressPercents : previousProgress;
-            System.out.println("Searched: " + directoriesSearched);
-            System.out.println("Total found: " + totalDirectoriesFound);
-            System.out.println(progressPercents);
+            //System.out.println("Searched: " + directoriesSearched);
+            //System.out.println("Total found: " + totalDirectoriesFound);
+            System.out.println(Math.round(progressPercents*100));
            // pb.setProgress(progressPercents*100);
         }
         executor.shutdown();
